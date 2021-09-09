@@ -1,0 +1,186 @@
+swagger: "2.0"
+info:
+  description: Swagger for CRUD operations
+  version: "1.0.0"
+  title: CRUD operations
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /aiops
+
+# Paths supported by the server application
+paths:
+  /insert/student:
+    post:
+      tags:
+      - "INSERT STUDENT"
+      summary: "insert operation"
+      description: "insert operation"
+      operationId: assignment.insert_student  #method name in the main file
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+        - name: name
+          in: formData
+          type: string
+          required: True
+        - name: class_id
+          in: formData
+          type: integer
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /read/student:
+    get:
+      tags:
+        - "READ STUDENT"
+      summary: "read opearation"
+      description: "read opearation"
+      operationId: assignment.read_student
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /update/student:
+    put:
+      tags:
+        - "UPDATE STUDENT"
+      summary: "update opearation"
+      description: "update opearation"
+      operationId: assignment.update_student
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+        - name: name
+          in: formData
+          type: string
+          required: True
+        - name: class_id
+          in: formData
+          type: integer
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /delete/student:
+    delete:
+      tags:
+        - "DELETE STUDENT"
+      summary: "delete opearation"
+      description: "delete opearation"
+      operationId: assignment.delete_student
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /insert/class:
+    post:
+      tags:
+        - "INSERT CLASS"
+      summary: "insert operation"
+      description: "insert operation"
+      operationId: assignment.insert_class  #method name in the main file
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+        - name: name
+          in: formData
+          type: string
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /read/class:
+    get:
+      tags:
+        - "READ CLASS"
+      summary: "read opearation"
+      description: "read opearation"
+      operationId: assignment.read_class
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+  /update/class:
+    put:
+      tags:
+        - "UPDATE CLASS"
+      summary: "update opearation"
+      description: "update opearation"
+      operationId: assignment.update_class
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+        - name: name
+          in: formData
+          type: string
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
+
+  /delete/class:
+    delete:
+      tags:
+        - "DELETE CLASS"
+      summary: "delete opearation"
+      description: "delete opearation"
+      operationId: assignment.delete_class
+      parameters:
+        - name: id
+          in: formData
+          type: integer
+          required: True
+      responses:
+        500:
+          description: Server error
+        200:
+          description: Successful
+          schema:
+            type: string
