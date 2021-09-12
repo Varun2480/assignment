@@ -4,7 +4,6 @@ REST API USING CRUD OPERATIONS
 """
 import json
 import datetime
-from urllib.parse import quote
 import connexion   # for swagger
 from flask import request, jsonify
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
@@ -15,10 +14,10 @@ from sqlalchemy.orm import sessionmaker, relationship
 
 
 app = connexion.App(__name__, specification_dir='./')    # where there is app use app.app
-pswd = quote('Varun@2480')
-
-engine = create_engine('mysql+pymysql://root:%s@localhost/mydatabase' % pswd)
-
+# pswd = quote('Varun@2480')
+#
+# engine = create_engine('mysql+pymysql://root:%s@localhost/mydatabase' % pswd)
+engine = create_engine('mysql+pymysql://root:Varun2480@localhost/mydatabase')
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
@@ -35,7 +34,7 @@ class StudentInfo(Base):
     class_id = Column(Integer(), ForeignKey("class.id"), unique=False, nullable=False)
     created_on = Column(DateTime, default=datetime.datetime.now())
     updated_on = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
-    # alembic_update = Column(String(20), unique=False, nullable=False)
+    alembic_update = Column(String(20), unique=False, nullable=False)
 
     classInfo = relationship("ClassInfo")
 
