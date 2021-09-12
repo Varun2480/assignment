@@ -4,5 +4,8 @@ run:
 pylint:
 	pylint assignment.py
 
-db:
-	$ alembic upgrade head
+db_upgrade:
+	 alembic upgrade head
+
+db_downgrade:
+	alembic downgrade -1
