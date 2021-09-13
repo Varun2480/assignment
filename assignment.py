@@ -2,7 +2,7 @@
 """
 REST API USING CRUD OPERATIONS
 """
-import json
+
 import datetime
 import connexion   # for swagger
 from flask import request, jsonify
@@ -34,7 +34,7 @@ class StudentInfo(Base):
     class_id = Column(Integer(), ForeignKey("class.id"), unique=False, nullable=False)
     created_on = Column(DateTime, default=datetime.datetime.now())
     updated_on = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
-    alembic_update = Column(String(20), unique=False, nullable=False)
+    # alembic_update = Column(String(20), unique=False, nullable=False)
 
     classInfo = relationship("ClassInfo")
 
@@ -57,16 +57,16 @@ Base.metadata.create_all(bind=engine)
 # insert/create
 
 
-@app.route("/insert/student", methods=['POST'])
+@app.route("/student/add_data", methods=['POST'])
 def insert_student():
     """this is insert method"""
     try:
-        stuid = request.form.get('id')
+        student_id = request.form.get('id')
         # inside get we need to mention the columns names in the table
-        stuname = request.form.get('name')
-        classid = request.form.get('class_id')
+        student_name = request.form.get('name')
+        class_id = request.form.get('class_id')
 
-        entry = StudentInfo(id=stuid, name=stuname, class_id=classid)
+        entry = StudentInfo(id=student_id, name=student_name, class_id=class_id)
 
         session.add(entry)
         session.commit()
@@ -82,22 +82,22 @@ def insert_student():
 # read
 
 
-@app.route("/read/student", methods=['GET'])
+@app.route("/student/info", methods=['GET'])
 def read_student():
     """this is read method"""
     try:
-        temp = session.query(StudentInfo).all()
-        temp_dic = {}
-        count = 1
-        for j in temp:
-            # print(j, j.stu_id, j.stu_name, j.stu_age)
-            # keys must be str, int, float, bool or None, not Student
-            store = {"stuid": j.id, "stuname": j.name, "classid": j.class_id,
-                     "created_on": str(j.created_on), "updated_on": str(j.updated_on)}
-            temp_dic["row {}".format(count)] = store
-            count += 1
+        rows = session.query(StudentInfo).all()
+        data = []
+        for row in rows:
+
+            data.append(["student_id = {}".format(row.id),
+                        "student_name = {}".format(row.name),
+                         "class_id = {}".format(row.class_id),
+                         "created_on = {}".format(str(row.created_on)),
+                         "updated_on = {}".format(str(row.updated_on))])
         # print(temp_dic)
-        return_var = {"status": True, "data": json.dumps(temp_dic)}
+        # return_var = {"status": True, "data": json.dumps(temp_dic)}
+        return_var = {"status": True, "data": data}
     except Exception as ex:
         print("error while reading data---->", ex)
         return_var = {"status": False, "msg": "unable to read the data"}
@@ -106,14 +106,15 @@ def read_student():
 # update
 
 
-@app.route("/update/student", methods=['PUT'])
+@app.route("/student/edit", methods=['PUT'])
 def update_student():
     """this is update method"""
     try:
-        stuid = request.form.get('id')
-        entry = session.query(StudentInfo).get(stuid)
-        entry.name = request.form.get('name')
-        entry.class_id = request.form.get('class_id')
+
+        updated_data = [dict(id=request.form.get('id'), name=request.form.get('name'),
+                             class_id=request.form.get('class_id'))]
+
+        session.bulk_update_mappings(StudentInfo, updated_data)
 
         session.commit()
         return_var = {"status": True, "msg": "data updated successfully"}
@@ -126,13 +127,13 @@ def update_student():
 
 
 # # delete
-@app.route("/delete/student", methods=['DELETE'])
+@app.route("/student/remove", methods=['DELETE'])
 def delete_student():
     """this is delete method"""
     try:
 
-        stuid = request.form.get('id')
-        entry = session.query(StudentInfo).get(stuid)
+        student_id = request.form.get('id')
+        entry = session.query(StudentInfo).get(student_id)
 
         session.delete(entry)
         session.commit()
@@ -145,7 +146,7 @@ def delete_student():
     return jsonify(return_var)
 
 
-@app.route("/insert/class", methods=['POST'])
+@app.route("/class/add_data", methods=['POST'])
 def insert_class():
     """this is insert method"""
     try:
@@ -166,33 +167,37 @@ def insert_class():
     return jsonify(return_var)
 
 
-@app.route("/read/class", methods=['GET'])
+@app.route("/class/info", methods=['GET'])
 def read_class():
     """this is read method"""
     try:
-        temp = session.query(ClassInfo).all()
-        temp_dic = {}
-        count = 1
-        for j in temp:
-            store = {"class_id": j.id, "class_name": j.name,
-                     "created_on": str(j.created_on), "updated_on": str(j.updated_on)}
-            temp_dic["row {}".format(count)] = store
-            count += 1
+        rows = session.query(ClassInfo).all()
+        data = []
+        for row in rows:
+
+            data.append(["class_id = {}".format(row.id),
+                         "class_name = {}".format(row.name),
+                         "created_on = {}".format(row.created_on),
+                         "updated_on = {}".format(row.updated_on)])
         # print(temp_dic)
-        return_var = {"status": True, "data": json.dumps(temp_dic)}
+        return_var = {"status": True, "data": data}
     except Exception as ex:
         print("error while reading data---->", ex)
         return_var = {"status": False, "msg": "unable to read the data"}
     return jsonify(return_var)
 
 
-@app.route("/update/class", methods=['PUT'])
+@app.route("/class/edit", methods=['PUT'])
 def update_class():
     """this is update method"""
     try:
-        class_id = request.form.get('id')
-        entry = session.query(ClassInfo).get(class_id)
-        entry.name = request.form.get('name')
+        # class_id = request.form.get('id')
+        # entry = session.query(ClassInfo).get(class_id)
+        # entry.name = request.form.get('name')
+
+        updated_data = [dict(id=request.form.get('id'), name=request.form.get('name'))]
+
+        session.bulk_update_mappings(ClassInfo, updated_data)
 
         session.commit()
 
@@ -205,7 +210,7 @@ def update_class():
     return jsonify(return_var)
 
 
-@app.route("/delete/class", methods=['DELETE'])
+@app.route("/class/remove", methods=['DELETE'])
 def delete_class():
     """this is delete method"""
     try:

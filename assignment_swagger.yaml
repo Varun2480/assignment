@@ -12,10 +12,10 @@ basePath: /aiops
 
 # Paths supported by the server application
 paths:
-  /insert/student:
+  /student/add_data:
     post:
       tags:
-      - "INSERT STUDENT"
+      - "STUDENT"
       summary: "insert operation"
       description: "insert operation"
       operationId: assignment.insert_student  #method name in the main file
@@ -40,10 +40,10 @@ paths:
           schema:
             type: string
 
-  /read/student:
+  /student/info:
     get:
       tags:
-        - "READ STUDENT"
+        - "STUDENT"
       summary: "read opearation"
       description: "read opearation"
       operationId: assignment.read_student
@@ -55,10 +55,10 @@ paths:
           schema:
             type: string
 
-  /update/student:
+  /student/edit:
     put:
       tags:
-        - "UPDATE STUDENT"
+        - "STUDENT"
       summary: "update opearation"
       description: "update opearation"
       operationId: assignment.update_student
@@ -83,10 +83,10 @@ paths:
           schema:
             type: string
 
-  /delete/student:
+  /student/remove:
     delete:
       tags:
-        - "DELETE STUDENT"
+        - "STUDENT"
       summary: "delete opearation"
       description: "delete opearation"
       operationId: assignment.delete_student
@@ -103,10 +103,10 @@ paths:
           schema:
             type: string
 
-  /insert/class:
+  /class/add_data:
     post:
       tags:
-        - "INSERT CLASS"
+        - "CLASS"
       summary: "insert operation"
       description: "insert operation"
       operationId: assignment.insert_class  #method name in the main file
@@ -127,10 +127,10 @@ paths:
           schema:
             type: string
 
-  /read/class:
+  /class/info:
     get:
       tags:
-        - "READ CLASS"
+        - "CLASS"
       summary: "read opearation"
       description: "read opearation"
       operationId: assignment.read_class
@@ -141,10 +141,10 @@ paths:
           description: Successful
           schema:
             type: string
-  /update/class:
+  /class/edit:
     put:
       tags:
-        - "UPDATE CLASS"
+        - "CLASS"
       summary: "update opearation"
       description: "update opearation"
       operationId: assignment.update_class
@@ -165,10 +165,10 @@ paths:
           schema:
             type: string
 
-  /delete/class:
+  /class/remove:
     delete:
       tags:
-        - "DELETE CLASS"
+        - "CLASS"
       summary: "delete opearation"
       description: "delete opearation"
       operationId: assignment.delete_class
